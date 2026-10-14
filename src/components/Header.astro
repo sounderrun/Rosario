@@ -1,0 +1,121 @@
+---
+const links = [
+  { href: '/bible/', label: 'Bible' },
+  { href: '/library/', label: 'Library' },
+  { href: '/chat/', label: 'Chat' },
+  { href: '/trivia/', label: 'Trivia' },
+];
+const path = Astro.url.pathname;
+---
+<header class="site-header">
+  <div class="bar">
+    <a class="brand" href="/">
+      <svg viewBox="0 0 24 24" width="22" height="22" aria-hidden="true">
+        <path d="M10.5 2h3v6h6v3h-6v11h-3V11h-6V8h6z" fill="currentColor" />
+      </svg>
+      Rosario
+    </a>
+    <button class="menu-toggle" type="button" aria-expanded="false" aria-controls="site-nav" aria-label="Menu">
+      <span></span><span></span><span></span>
+    </button>
+    <nav id="site-nav" aria-label="Main">
+      <ul>
+        {links.map(({ href, label }) => (
+          <li><a href={href} aria-current={path.startsWith(href) ? 'page' : undefined}>{label}</a></li>
+        ))}
+      </ul>
+    </nav>
+  </div>
+</header>
+
+<script>
+  const toggle = document.querySelector<HTMLButtonElement>('.menu-toggle')!;
+  toggle.addEventListener('click', () => {
+    toggle.setAttribute('aria-expanded', String(toggle.getAttribute('aria-expanded') !== 'true'));
+  });
+</script>
+
+<style>
+  .site-header {
+    position: sticky;
+    top: 0;
+    z-index: 10;
+    background: color-mix(in srgb, var(--bg) 88%, transparent);
+    backdrop-filter: blur(8px);
+    border-bottom: 1px solid var(--line);
+  }
+  .bar {
+    max-width: 64rem;
+    margin: 0 auto;
+    padding: 0 1rem;
+    height: 3.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  .brand {
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+    font-family: Georgia, 'Times New Roman', serif;
+    font-size: 1.35rem;
+    font-weight: 700;
+    color: var(--fg);
+    text-decoration: none;
+  }
+  .brand svg { color: var(--accent); }
+  nav ul {
+    display: flex;
+    gap: 0.25rem;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+  nav a {
+    display: block;
+    padding: 0.5rem 0.75rem;
+    border-radius: 0.5rem;
+    color: var(--muted);
+    text-decoration: none;
+    font-weight: 500;
+  }
+  nav a:hover { color: var(--fg); background: var(--hover); }
+  nav a[aria-current='page'] { color: var(--accent); }
+  .menu-toggle { display: none; }
+
+  @media (max-width: 40rem) {
+    .menu-toggle {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      gap: 5px;
+      width: 2.75rem;
+      height: 2.75rem;
+      padding: 0 0.6rem;
+      background: none;
+      border: 0;
+      cursor: pointer;
+    }
+    .menu-toggle span {
+      height: 2px;
+      background: var(--fg);
+      border-radius: 1px;
+      transition: transform 0.2s, opacity 0.2s;
+    }
+    .menu-toggle[aria-expanded='true'] span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+    .menu-toggle[aria-expanded='true'] span:nth-child(2) { opacity: 0; }
+    .menu-toggle[aria-expanded='true'] span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+    nav {
+      display: none;
+      position: absolute;
+      top: 3.5rem;
+      left: 0;
+      right: 0;
+      background: var(--bg);
+      border-bottom: 1px solid var(--line);
+    }
+    .menu-toggle[aria-expanded='true'] + nav { display: block; }
+    nav ul { flex-direction: column; padding: 0.5rem 1rem 1rem; }
+    nav a { padding: 0.85rem 0.75rem; font-size: 1.05rem; }
+  }
+</style>
