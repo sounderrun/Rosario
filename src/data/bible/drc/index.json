@@ -1,0 +1,447 @@
+{
+  "edition": "Douay-Rheims Bible, Challoner revision",
+  "license": "Public Domain",
+  "source": "https://www.gutenberg.org/ebooks/1581",
+  "sha256": "7d10da78d8ec97db53b4e2bd8719cc01e16106b44937a673ba34aa534a04c007",
+  "versification": "Vulgate",
+  "books": [
+    {
+      "id": "GEN",
+      "slug": "gen",
+      "name": "Genesis",
+      "chapters": 50
+    },
+    {
+      "id": "EXO",
+      "slug": "exo",
+      "name": "Exodus",
+      "chapters": 40
+    },
+    {
+      "id": "LEV",
+      "slug": "lev",
+      "name": "Leviticus",
+      "chapters": 27
+    },
+    {
+      "id": "NUM",
+      "slug": "num",
+      "name": "Numbers",
+      "chapters": 36
+    },
+    {
+      "id": "DEU",
+      "slug": "deu",
+      "name": "Deuteronomy",
+      "chapters": 34
+    },
+    {
+      "id": "JOS",
+      "slug": "jos",
+      "name": "Joshua",
+      "chapters": 24
+    },
+    {
+      "id": "JDG",
+      "slug": "jdg",
+      "name": "Judges",
+      "chapters": 21
+    },
+    {
+      "id": "RUT",
+      "slug": "rut",
+      "name": "Ruth",
+      "chapters": 4
+    },
+    {
+      "id": "1SA",
+      "slug": "1sa",
+      "name": "1 Samuel",
+      "chapters": 31
+    },
+    {
+      "id": "2SA",
+      "slug": "2sa",
+      "name": "2 Samuel",
+      "chapters": 24
+    },
+    {
+      "id": "1KI",
+      "slug": "1ki",
+      "name": "1 Kings",
+      "chapters": 22
+    },
+    {
+      "id": "2KI",
+      "slug": "2ki",
+      "name": "2 Kings",
+      "chapters": 25
+    },
+    {
+      "id": "1CH",
+      "slug": "1ch",
+      "name": "1 Chronicles",
+      "chapters": 29
+    },
+    {
+      "id": "2CH",
+      "slug": "2ch",
+      "name": "2 Chronicles",
+      "chapters": 36
+    },
+    {
+      "id": "EZR",
+      "slug": "ezr",
+      "name": "Ezra",
+      "chapters": 10
+    },
+    {
+      "id": "NEH",
+      "slug": "neh",
+      "name": "Nehemiah",
+      "chapters": 13
+    },
+    {
+      "id": "TOB",
+      "slug": "tob",
+      "name": "Tobit",
+      "chapters": 14
+    },
+    {
+      "id": "JDT",
+      "slug": "jdt",
+      "name": "Judith",
+      "chapters": 16
+    },
+    {
+      "id": "EST",
+      "slug": "est",
+      "name": "Esther",
+      "chapters": 16
+    },
+    {
+      "id": "1MA",
+      "slug": "1ma",
+      "name": "1 Maccabees",
+      "chapters": 16
+    },
+    {
+      "id": "2MA",
+      "slug": "2ma",
+      "name": "2 Maccabees",
+      "chapters": 15
+    },
+    {
+      "id": "JOB",
+      "slug": "job",
+      "name": "Job",
+      "chapters": 42
+    },
+    {
+      "id": "PSA",
+      "slug": "psa",
+      "name": "Psalms",
+      "chapters": 150
+    },
+    {
+      "id": "PRO",
+      "slug": "pro",
+      "name": "Proverbs",
+      "chapters": 31
+    },
+    {
+      "id": "ECC",
+      "slug": "ecc",
+      "name": "Ecclesiastes",
+      "chapters": 12
+    },
+    {
+      "id": "SNG",
+      "slug": "sng",
+      "name": "Song of Songs",
+      "chapters": 8
+    },
+    {
+      "id": "WIS",
+      "slug": "wis",
+      "name": "Wisdom",
+      "chapters": 19
+    },
+    {
+      "id": "SIR",
+      "slug": "sir",
+      "name": "Sirach",
+      "chapters": 51
+    },
+    {
+      "id": "ISA",
+      "slug": "isa",
+      "name": "Isaiah",
+      "chapters": 66
+    },
+    {
+      "id": "JER",
+      "slug": "jer",
+      "name": "Jeremiah",
+      "chapters": 52
+    },
+    {
+      "id": "LAM",
+      "slug": "lam",
+      "name": "Lamentations",
+      "chapters": 5
+    },
+    {
+      "id": "BAR",
+      "slug": "bar",
+      "name": "Baruch",
+      "chapters": 6
+    },
+    {
+      "id": "EZK",
+      "slug": "ezk",
+      "name": "Ezekiel",
+      "chapters": 48
+    },
+    {
+      "id": "DAN",
+      "slug": "dan",
+      "name": "Daniel",
+      "chapters": 14
+    },
+    {
+      "id": "HOS",
+      "slug": "hos",
+      "name": "Hosea",
+      "chapters": 14
+    },
+    {
+      "id": "JOL",
+      "slug": "jol",
+      "name": "Joel",
+      "chapters": 3
+    },
+    {
+      "id": "AMO",
+      "slug": "amo",
+      "name": "Amos",
+      "chapters": 9
+    },
+    {
+      "id": "OBA",
+      "slug": "oba",
+      "name": "Obadiah",
+      "chapters": 1
+    },
+    {
+      "id": "JON",
+      "slug": "jon",
+      "name": "Jonah",
+      "chapters": 4
+    },
+    {
+      "id": "MIC",
+      "slug": "mic",
+      "name": "Micah",
+      "chapters": 7
+    },
+    {
+      "id": "NAM",
+      "slug": "nam",
+      "name": "Nahum",
+      "chapters": 3
+    },
+    {
+      "id": "HAB",
+      "slug": "hab",
+      "name": "Habakkuk",
+      "chapters": 3
+    },
+    {
+      "id": "ZEP",
+      "slug": "zep",
+      "name": "Zephaniah",
+      "chapters": 3
+    },
+    {
+      "id": "HAG",
+      "slug": "hag",
+      "name": "Haggai",
+      "chapters": 2
+    },
+    {
+      "id": "ZEC",
+      "slug": "zec",
+      "name": "Zechariah",
+      "chapters": 14
+    },
+    {
+      "id": "MAL",
+      "slug": "mal",
+      "name": "Malachi",
+      "chapters": 4
+    },
+    {
+      "id": "MAT",
+      "slug": "mat",
+      "name": "Matthew",
+      "chapters": 28
+    },
+    {
+      "id": "MRK",
+      "slug": "mrk",
+      "name": "Mark",
+      "chapters": 16
+    },
+    {
+      "id": "LUK",
+      "slug": "luk",
+      "name": "Luke",
+      "chapters": 24
+    },
+    {
+      "id": "JHN",
+      "slug": "jhn",
+      "name": "John",
+      "chapters": 21
+    },
+    {
+      "id": "ACT",
+      "slug": "act",
+      "name": "Acts",
+      "chapters": 28
+    },
+    {
+      "id": "ROM",
+      "slug": "rom",
+      "name": "Romans",
+      "chapters": 16
+    },
+    {
+      "id": "1CO",
+      "slug": "1co",
+      "name": "1 Corinthians",
+      "chapters": 16
+    },
+    {
+      "id": "2CO",
+      "slug": "2co",
+      "name": "2 Corinthians",
+      "chapters": 13
+    },
+    {
+      "id": "GAL",
+      "slug": "gal",
+      "name": "Galatians",
+      "chapters": 6
+    },
+    {
+      "id": "EPH",
+      "slug": "eph",
+      "name": "Ephesians",
+      "chapters": 6
+    },
+    {
+      "id": "PHP",
+      "slug": "php",
+      "name": "Philippians",
+      "chapters": 4
+    },
+    {
+      "id": "COL",
+      "slug": "col",
+      "name": "Colossians",
+      "chapters": 4
+    },
+    {
+      "id": "1TH",
+      "slug": "1th",
+      "name": "1 Thessalonians",
+      "chapters": 5
+    },
+    {
+      "id": "2TH",
+      "slug": "2th",
+      "name": "2 Thessalonians",
+      "chapters": 3
+    },
+    {
+      "id": "1TI",
+      "slug": "1ti",
+      "name": "1 Timothy",
+      "chapters": 6
+    },
+    {
+      "id": "2TI",
+      "slug": "2ti",
+      "name": "2 Timothy",
+      "chapters": 4
+    },
+    {
+      "id": "TIT",
+      "slug": "tit",
+      "name": "Titus",
+      "chapters": 3
+    },
+    {
+      "id": "PHM",
+      "slug": "phm",
+      "name": "Philemon",
+      "chapters": 1
+    },
+    {
+      "id": "HEB",
+      "slug": "heb",
+      "name": "Hebrews",
+      "chapters": 13
+    },
+    {
+      "id": "JAS",
+      "slug": "jas",
+      "name": "James",
+      "chapters": 5
+    },
+    {
+      "id": "1PE",
+      "slug": "1pe",
+      "name": "1 Peter",
+      "chapters": 5
+    },
+    {
+      "id": "2PE",
+      "slug": "2pe",
+      "name": "2 Peter",
+      "chapters": 3
+    },
+    {
+      "id": "1JN",
+      "slug": "1jn",
+      "name": "1 John",
+      "chapters": 5
+    },
+    {
+      "id": "2JN",
+      "slug": "2jn",
+      "name": "2 John",
+      "chapters": 1
+    },
+    {
+      "id": "3JN",
+      "slug": "3jn",
+      "name": "3 John",
+      "chapters": 1
+    },
+    {
+      "id": "JUD",
+      "slug": "jud",
+      "name": "Jude",
+      "chapters": 1
+    },
+    {
+      "id": "REV",
+      "slug": "rev",
+      "name": "Revelation",
+      "chapters": 22
+    }
+  ]
+}
