@@ -1,6 +1,193 @@
 ---
 import Base from '../layouts/Base.astro';
+import { getDailyVerses, dayIndex } from '../lib/votd';
+
+const verses = getDailyVerses();
+// Shown without JavaScript; the script below picks the visitor's own date.
+const v = verses[dayIndex(new Date()) % verses.length];
 ---
 <Base>
-  <h1>Rosario</h1>
+  <h1 class="visually-hidden">Rosario</h1>
+  <section class="hero container" aria-labelledby="votd-label">
+    <p class="label rubric reveal" id="votd-label" style="--i: 0">Verse of the day</p>
+    <figure class="votd" id="votd" data-size={v.s}>
+      <blockquote class="reveal" style="--i: 1">
+        <p data-text>{v.t}</p>
+      </blockquote>
+      <figcaption class="reveal" style="--i: 2">
+        <a class="ref" data-ref href={v.h}>{v.r}</a>
+      </figcaption>
+    </figure>
+    <a class="button cta reveal" style="--i: 3" href="/bible/webc/">Read the Bible</a>
+  </section>
+  <script is:inline type="application/json" id="votd-data" set:html={JSON.stringify(verses)} />
+  <script is:inline>
+    (() => {
+      const list = JSON.parse(document.getElementById('votd-data').textContent);
+      const d = new Date();
+      const v = list[Math.floor(Date.UTC(d.getFullYear(), d.getMonth(), d.getDate()) / 864e5) % list.length];
+      const box = document.getElementById('votd');
+      box.dataset.size = v.s;
+      box.querySelector('[data-text]').textContent = v.t;
+      const ref = box.querySelector('[data-ref]');
+      ref.textContent = v.r;
+      ref.href = v.h;
+    })();
+  </script>
 </Base>
+
+<style>
+  /* The verse sits in the optical middle of the first screen, like a title page. */
+  :global(main):has(.hero) {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+
+  .hero {
+    display: grid;
+    align-content: start;
+    gap: 1.25rem;
+    padding-block: clamp(2.5rem, 7vh, 4.5rem) clamp(2.5rem, 10vh, 6.5rem);
+  }
+
+  .label {
+    font-size: 1.0625rem;
+  }
+
+  .votd {
+    margin: 0;
+  }
+
+  blockquote {
+    margin: 0;
+    font-family: var(--font-display), Georgia, serif;
+    font-weight: 500;
+    line-height: 1.16;
+    max-width: 17em;
+    text-wrap: pretty;
+  }
+
+  .votd[data-size='short'] blockquote {
+    font-size: clamp(2.375rem, 1.6rem + 3.6vw, 4.25rem);
+  }
+
+  .votd[data-size='medium'] blockquote {
+    font-size: clamp(2.125rem, 1.5rem + 2.7vw, 3.5rem);
+  }
+
+  .votd[data-size='long'] blockquote {
+    font-size: clamp(1.875rem, 1.4rem + 1.9vw, 2.875rem);
+    max-width: 19em;
+  }
+
+  /* Illuminated initial, two lines deep. The float is the fallback for
+     browsers without initial-letter. */
+  blockquote p::first-letter {
+    float: left;
+    margin: 0.07em 0.09em 0 0;
+    color: var(--rubric);
+    font-size: 2.62em;
+    font-weight: 600;
+    line-height: 0.8;
+  }
+
+  @supports (initial-letter: 2) or (-webkit-initial-letter: 2) {
+    blockquote p::first-letter {
+      float: none;
+      margin: 0 0.08em 0 0;
+      font-size: inherit;
+      line-height: inherit;
+      -webkit-initial-letter: 2;
+      initial-letter: 2;
+    }
+  }
+
+  figcaption {
+    margin-top: 1rem;
+  }
+
+  .ref {
+    font-family: var(--font-display), Georgia, serif;
+    font-size: 1.375rem;
+    font-style: italic;
+    font-weight: 500;
+    color: var(--ink-soft);
+    text-decoration: underline;
+    text-decoration-color: var(--rule);
+    text-decoration-thickness: 1px;
+    text-underline-offset: 0.22em;
+  }
+
+  .ref:hover {
+    color: var(--accent);
+    text-decoration-color: currentColor;
+  }
+
+  .cta {
+    justify-self: start;
+    margin-top: 1rem;
+  }
+
+  /* Tablet and up: the label moves into a ruled margin, like a rubric. */
+  @media (min-width: 48rem) {
+    .hero {
+      grid-template-columns: 9.5rem minmax(0, 1fr);
+      column-gap: 2.5rem;
+      row-gap: 0;
+    }
+
+    .label {
+      grid-row: 1 / span 2;
+      justify-self: end;
+      align-self: start;
+      padding-top: 0.6rem;
+      text-align: right;
+      line-height: 1.3;
+    }
+
+    .votd,
+    .cta {
+      grid-column: 2;
+      position: relative;
+    }
+
+    .votd::before {
+      content: '';
+      position: absolute;
+      inset: 0.4rem auto 0.2rem -1.25rem;
+      width: 1px;
+      background: var(--gold);
+      opacity: 0.7;
+    }
+
+    .cta {
+      margin-top: 2.25rem;
+    }
+  }
+
+  @media (min-width: 64rem) {
+    .hero {
+      grid-template-columns: 12rem minmax(0, 1fr);
+      column-gap: 3rem;
+    }
+
+    .votd::before {
+      left: -1.5rem;
+    }
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    .reveal {
+      animation: rise 0.9s cubic-bezier(0.16, 1, 0.3, 1) both;
+      animation-delay: calc(var(--i) * 120ms);
+    }
+
+    @keyframes rise {
+      from {
+        opacity: 0;
+        transform: translateY(0.6rem);
+      }
+    }
+  }
+</style>

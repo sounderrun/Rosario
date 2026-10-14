@@ -1,0 +1,106 @@
+---
+import Base from '../../../../layouts/Base.astro';
+import TranslationSwitch from '../../../../components/TranslationSwitch.astro';
+import CaretLeft from '@phosphor-icons/core/regular/caret-left.svg';
+import {
+  TRANSLATIONS,
+  TRANSLATION_IDS,
+  bibleHref,
+  bookHref,
+  chapterHref,
+  getBooks,
+  type Book,
+  type TranslationId,
+} from '../../../../lib/bible';
+
+export function getStaticPaths() {
+  return TRANSLATION_IDS.flatMap((translation) =>
+    getBooks(translation).map((book) => ({ params: { translation, book: book.slug }, props: { book } })),
+  );
+}
+
+const t = Astro.params.translation as TranslationId;
+const { book } = Astro.props as { book: Book };
+const hrefs = Object.fromEntries(
+  TRANSLATION_IDS.map((id) => [id, bookHref(id, getBooks(id)[book.index])]),
+) as Record<TranslationId, string>;
+const chapters = Array.from({ length: book.chapters }, (_, i) => i + 1);
+---
+<Base title={`${book.name} (${TRANSLATIONS[t].label})`} description={`Chapters of ${book.name} in the ${TRANSLATIONS[t].name}.`}>
+  <div class="container page">
+    <div class="bar">
+      <a class="back" href={bibleHref(t)}><CaretLeft width="18" height="18" aria-hidden="true" />All books</a>
+      <TranslationSwitch current={t} hrefs={hrefs} />
+    </div>
+    <h1>{book.name}</h1>
+    <ol class="chapters" aria-label={book.id === 'PSA' ? 'Psalms' : 'Chapters'}>
+      {chapters.map((c) => (
+        <li><a href={chapterHref(t, book, c)}>{c}</a></li>
+      ))}
+    </ol>
+  </div>
+</Base>
+
+<style>
+  .page {
+    max-width: 48rem;
+    padding-block: 1.25rem 0;
+  }
+
+  .bar {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.75rem 1rem;
+    margin-bottom: clamp(1.75rem, 5vh, 3rem);
+  }
+
+  .back {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.25rem;
+    min-height: 2.75rem;
+    color: var(--ink-soft);
+    text-decoration: none;
+  }
+
+  .back:hover {
+    color: var(--accent);
+  }
+
+  h1 {
+    font-size: var(--fs-h1);
+    margin-bottom: 1.5rem;
+  }
+
+  .chapters {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(3.25rem, 1fr));
+    gap: 0.5rem;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .chapters a {
+    display: grid;
+    place-items: center;
+    aspect-ratio: 1;
+    border: 1px solid var(--rule);
+    border-radius: var(--radius);
+    font-family: var(--font-display), Georgia, serif;
+    font-size: 1.3125rem;
+    font-weight: 600;
+    font-variant-numeric: lining-nums;
+    color: var(--ink);
+    text-decoration: none;
+    transition: background-color 0.15s ease, color 0.15s ease;
+  }
+
+  .chapters a:hover {
+    background: var(--accent);
+    border-color: var(--accent);
+    color: var(--on-accent);
+  }
+</style>

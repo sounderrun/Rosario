@@ -1,0 +1,92 @@
+---
+import BibleIcon from '@phosphor-icons/core/regular/book-open-text.svg';
+import BibleIconFill from '@phosphor-icons/core/fill/book-open-text-fill.svg';
+import LibraryIcon from '@phosphor-icons/core/regular/books.svg';
+import LibraryIconFill from '@phosphor-icons/core/fill/books-fill.svg';
+import ChatIcon from '@phosphor-icons/core/regular/chat-circle-text.svg';
+import ChatIconFill from '@phosphor-icons/core/fill/chat-circle-text-fill.svg';
+import TriviaIcon from '@phosphor-icons/core/regular/seal-question.svg';
+import TriviaIconFill from '@phosphor-icons/core/fill/seal-question-fill.svg';
+import { NAV, currentFor } from '../lib/nav';
+
+const ICONS = {
+  bible: [BibleIcon, BibleIconFill],
+  library: [LibraryIcon, LibraryIconFill],
+  chat: [ChatIcon, ChatIconFill],
+  trivia: [TriviaIcon, TriviaIconFill],
+} as const;
+
+const { pathname } = Astro.url;
+---
+<nav class="tab-bar" aria-label="Main">
+  <ul>
+    {NAV.map((item) => {
+      const current = currentFor(pathname, item);
+      const [Icon, IconFill] = ICONS[item.key];
+      const Shown = current ? IconFill : Icon;
+      return (
+        <li>
+          <a href={item.href} aria-current={current}>
+            <Shown width="24" height="24" aria-hidden="true" />
+            <span>{item.label}</span>
+          </a>
+        </li>
+      );
+    })}
+  </ul>
+</nav>
+
+<style>
+  .tab-bar {
+    position: fixed;
+    inset: auto 0 0;
+    z-index: 20;
+    padding-bottom: env(safe-area-inset-bottom);
+    background: color-mix(in oklab, var(--paper-raised) 94%, transparent);
+    border-top: 1px solid var(--rule);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+  }
+
+  ul {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    height: var(--tabbar-h);
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  a {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 0.125rem;
+    height: 100%;
+    color: var(--ink-soft);
+    font-size: 0.75rem;
+    line-height: 1.2;
+    text-decoration: none;
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  a[aria-current] {
+    color: var(--accent);
+    font-weight: 600;
+  }
+
+  a:active svg {
+    transform: scale(0.92);
+  }
+
+  svg {
+    transition: transform 0.15s ease;
+  }
+
+  @media (min-width: 48rem) {
+    .tab-bar {
+      display: none;
+    }
+  }
+</style>

@@ -1,0 +1,141 @@
+---
+import Base from '../../../layouts/Base.astro';
+import TranslationSwitch from '../../../components/TranslationSwitch.astro';
+import {
+  TRANSLATIONS,
+  TRANSLATION_IDS,
+  bibleHref,
+  bookHref,
+  chapterHref,
+  getTestaments,
+  type TranslationId,
+} from '../../../lib/bible';
+
+export function getStaticPaths() {
+  return TRANSLATION_IDS.map((translation) => ({ params: { translation } }));
+}
+
+const t = Astro.params.translation as TranslationId;
+const testaments = getTestaments(t);
+const hrefs = Object.fromEntries(TRANSLATION_IDS.map((id) => [id, bibleHref(id)])) as Record<TranslationId, string>;
+---
+<Base title={`The Holy Bible (${TRANSLATIONS[t].label})`} description={`Read the ${TRANSLATIONS[t].name} free online.`}>
+  <div class="container page">
+    <header class="page-head">
+      <h1>The Holy Bible</h1>
+      <TranslationSwitch current={t} hrefs={hrefs} />
+      <p class="about">{TRANSLATIONS[t].name}. {TRANSLATIONS[t].about}</p>
+    </header>
+
+    {testaments.map((testament) => (
+      <section class="testament" aria-labelledby={testament.name.toLowerCase().replace(' ', '-')}>
+        <h2 id={testament.name.toLowerCase().replace(' ', '-')}>{testament.name}</h2>
+        {testament.sections.map((section) => (
+          <div class="group">
+            <h3 class="rubric">{section.name}</h3>
+            <ul class="books">
+              {section.books.map((book) => (
+                <li>
+                  <a href={book.chapters === 1 ? chapterHref(t, book, 1) : bookHref(t, book)}>{book.name}</a>
+                </li>
+              ))}
+            </ul>
+          </div>
+        ))}
+      </section>
+    ))}
+  </div>
+</Base>
+
+<style>
+  .page {
+    padding-block: clamp(2rem, 6vh, 3.5rem) 0;
+  }
+
+  .page-head {
+    display: grid;
+    justify-items: start;
+    gap: 1rem;
+    margin-bottom: 2.5rem;
+  }
+
+  h1 {
+    font-size: var(--fs-h1);
+  }
+
+  .about {
+    max-width: 34rem;
+    color: var(--ink-soft);
+  }
+
+  .testament + .testament {
+    margin-top: 3rem;
+  }
+
+  h2 {
+    font-size: var(--fs-h2);
+    padding-bottom: 0.5rem;
+    margin-bottom: 1.25rem;
+    border-bottom: 1px solid var(--gold);
+  }
+
+  .group + .group {
+    margin-top: 1.5rem;
+  }
+
+  h3 {
+    font-family: var(--font-ui);
+    font-size: 1rem;
+    font-weight: 400;
+    margin-bottom: 0.25rem;
+  }
+
+  .books {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    column-gap: 1.25rem;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .books a {
+    display: flex;
+    align-items: center;
+    min-height: 2.75rem;
+    font-family: var(--font-display), Georgia, serif;
+    font-size: 1.375rem;
+    font-weight: 600;
+    line-height: 1.15;
+    color: var(--ink);
+    text-decoration: none;
+  }
+
+  .books a:hover {
+    color: var(--accent);
+  }
+
+  @media (min-width: 40rem) {
+    .books {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+  }
+
+  /* Wider screens: section names sit in the margin, like rubrics. */
+  @media (min-width: 64rem) {
+    .group {
+      display: grid;
+      grid-template-columns: 12rem minmax(0, 1fr);
+      column-gap: 3rem;
+    }
+
+    h3 {
+      padding-top: 0.75rem;
+      text-align: right;
+    }
+
+    .books {
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+    }
+  }
+</style>

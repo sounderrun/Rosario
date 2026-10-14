@@ -1,0 +1,37 @@
+---
+import Base from '../layouts/Base.astro';
+
+interface Props {
+  title: string;
+  text: string;
+}
+const { title, text } = Astro.props;
+---
+<Base title={title} description={text}>
+  <div class="container page">
+    <h1>{title}</h1>
+    <p class="rubric">Coming soon</p>
+    <p class="text">{text}</p>
+    <a class="button" href="/bible/webc/">Read the Bible</a>
+  </div>
+</Base>
+
+<style>
+  .page {
+    display: grid;
+    justify-items: start;
+    gap: 1rem;
+    max-width: 38rem;
+    padding-block: clamp(2.5rem, 9vh, 6rem) 0;
+  }
+
+  h1 {
+    font-size: var(--fs-h1);
+  }
+
+  .text {
+    font-size: var(--fs-text);
+    line-height: 1.6;
+    margin-bottom: 0.75rem;
+  }
+</style>

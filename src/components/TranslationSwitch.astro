@@ -1,0 +1,75 @@
+---
+import { TRANSLATIONS, TRANSLATION_IDS, type TranslationId } from '../lib/bible';
+
+interface Props {
+  current: TranslationId;
+  hrefs: Record<TranslationId, string>;
+}
+const { current, hrefs } = Astro.props;
+---
+<nav class="switch" aria-label="Translation">
+  {TRANSLATION_IDS.map((id) => {
+    const tr = TRANSLATIONS[id];
+    return (
+      <a href={hrefs[id]} aria-current={id === current ? 'true' : undefined} title={tr.name}>
+        {tr.short === tr.label ? tr.label : (
+          <>
+            <span class="long">{tr.label}</span>
+            <span class="short">{tr.short}</span>
+          </>
+        )}
+      </a>
+    );
+  })}
+</nav>
+
+<style>
+  .switch {
+    display: inline-flex;
+    padding: 3px;
+    border: 1px solid var(--rule);
+    border-radius: var(--radius);
+    background: var(--paper);
+  }
+
+  a {
+    display: inline-flex;
+    align-items: center;
+    min-height: 2.25rem;
+    padding: 0 0.8rem;
+    border-radius: 2px;
+    color: var(--ink-soft);
+    font-size: 0.9375rem;
+    text-decoration: none;
+    white-space: nowrap;
+  }
+
+  a:hover {
+    color: var(--ink);
+  }
+
+  a[aria-current] {
+    background: var(--accent);
+    color: var(--on-accent);
+    font-weight: 600;
+  }
+
+  .short {
+    display: none;
+  }
+
+  /* Narrow phones: short labels so the switch shares a row with the back link. */
+  @media (max-width: 29.99rem) {
+    a {
+      padding: 0 0.65rem;
+    }
+
+    .long {
+      display: none;
+    }
+
+    .short {
+      display: inline;
+    }
+  }
+</style>
