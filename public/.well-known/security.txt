@@ -1,5 +1,5 @@
 Contact: https://github.com/sounderrun/Rosario/security/advisories/new
-Expires: 2027-10-01T00:00:00.000Z
+Expires: 2028-10-01T00:00:00.000Z
 Policy: https://github.com/sounderrun/Rosario/security/policy
 Preferred-Languages: en
 Canonical: https://rosario.osario.workers.dev/.well-known/security.txt
