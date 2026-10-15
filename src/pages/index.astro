@@ -9,19 +9,19 @@ const v = verses[dayIndex(new Date()) % verses.length];
 <Base>
   <h1 class="visually-hidden">Rosario</h1>
   <section class="hero container" aria-labelledby="votd-label">
-    <p class="label rubric reveal" id="votd-label" style="--i: 0">Verse of the day</p>
+    <p class="label rubric reveal" id="votd-label">Verse of the day</p>
     <figure class="votd" id="votd" data-size={v.s}>
-      <blockquote class="reveal" style="--i: 1">
+      <blockquote class="reveal">
         <p data-text>{v.t}</p>
       </blockquote>
-      <figcaption class="reveal" style="--i: 2">
+      <figcaption class="reveal">
         <a class="ref" data-ref href={v.h}>{v.r}</a>
       </figcaption>
     </figure>
-    <a class="button cta reveal" style="--i: 3" href="/bible/webc/">Read the Bible</a>
+    <a class="button cta reveal" href="/bible/webc/">Read the Bible</a>
   </section>
   <script is:inline type="application/json" id="votd-data" set:html={JSON.stringify(verses)} />
-  <script is:inline>
+  <script>
     (() => {
       const list = JSON.parse(document.getElementById('votd-data').textContent);
       const d = new Date();
@@ -182,6 +182,12 @@ const v = verses[dayIndex(new Date()) % verses.length];
       animation: rise 0.9s cubic-bezier(0.16, 1, 0.3, 1) both;
       animation-delay: calc(var(--i) * 120ms);
     }
+
+    /* Stagger set here, not in style attributes, so the CSP needs no 'unsafe-hashes'. */
+    .label { --i: 0; }
+    blockquote { --i: 1; }
+    figcaption { --i: 2; }
+    .cta { --i: 3; }
 
     @keyframes rise {
       from {

@@ -14,6 +14,24 @@ export default defineConfig({
   redirects: {
     '/bible': '/bible/webc/',
   },
+  // Per-page <meta> CSP: Astro hashes every inline script and style it emits, so
+  // nothing else can run or style the page. Header-only directives such as
+  // frame-ancestors live in public/_headers.
+  // No Markdown here; Shiki's inline styles would also break the CSP.
+  markdown: { syntaxHighlight: false },
+  security: {
+    csp: {
+      algorithm: 'SHA-256',
+      directives: [
+        "default-src 'none'",
+        "img-src 'self'",
+        "font-src 'self'",
+        "base-uri 'none'",
+        "form-action 'none'",
+        "upgrade-insecure-requests",
+      ],
+    },
+  },
   // Self-hosted from npm packages: no font CDN at build time or in the browser.
   fonts: [
     {
