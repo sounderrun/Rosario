@@ -4,18 +4,22 @@
    blue with gold as the interactive colour. */
 
 :root {
-  color-scheme: light dark;
+  color-scheme: dark;
 
-  --paper: #f1e7d3;
-  --paper-raised: #e8dac0;
-  --ink: #2e2119;
-  --ink-soft: #6a5544;
-  --rubric: #a11d21;
-  --gold: #a5802f;
-  --accent: var(--rubric);
-  --on-accent: #faf3e4;
-  --rule: rgb(46 33 25 / 0.16);
-  --highlight: rgb(165 128 47 / 0.18);
+  /* Candlelit palette taken from Caravaggio's Calling of Saint Matthew. */
+  --paper: #0a0b0d;
+  --paper-raised: #131418;
+  --ink: #e6d7c1;
+  --ink-soft: #b09a86;
+  --rubric: #d0765c;
+  --gold: #a8875f;
+  --accent: #dda264;
+  --on-accent: #0a0b0d;
+  --rule: rgb(145 111 87 / 0.4);
+  --highlight: rgb(221 162 100 / 0.14);
+  --crimson: #6e1a1c;
+  --crimson-hi: #8c2426;
+  --muted: #8a8f96;
 
   --font-ui: var(--font-text), Georgia, serif;
   --radius: 4px;
@@ -29,21 +33,6 @@
   --fs-h3: 1.3125rem;
   --fs-h2: 1.75rem;
   --fs-h1: clamp(2.25rem, 1.7rem + 2.4vw, 3.25rem);
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --paper: #0f1626;
-    --paper-raised: #172038;
-    --ink: #ebe1cd;
-    --ink-soft: #ab9f8a;
-    --rubric: #e3807b;
-    --gold: #d4b05e;
-    --accent: var(--gold);
-    --on-accent: #0f1626;
-    --rule: rgb(235 225 205 / 0.14);
-    --highlight: rgb(212 176 94 / 0.14);
-  }
 }
 
 *,

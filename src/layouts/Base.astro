@@ -8,9 +8,11 @@ import '../styles/global.css';
 interface Props {
   title?: string;
   description?: string;
+  bodyClass?: string;
 }
 const {
   title,
+  bodyClass,
   description = 'Read the Bible free online: the World English Bible, Catholic Edition, and the Douay-Rheims Bible.',
 } = Astro.props;
 const fullTitle = title ? `${title} | Rosario` : 'Rosario';
@@ -21,15 +23,14 @@ const fullTitle = title ? `${title} | Rosario` : 'Rosario';
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
     <meta name="description" content={description} />
-    <meta name="color-scheme" content="light dark" />
-    <meta name="theme-color" content="#f1e7d3" media="(prefers-color-scheme: light)" />
-    <meta name="theme-color" content="#0f1626" media="(prefers-color-scheme: dark)" />
+    <meta name="color-scheme" content="dark" />
+    <meta name="theme-color" content="#0a0b0d" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <Font cssVariable="--font-display" preload={[{ weight: 600, style: 'normal' }]} />
     <Font cssVariable="--font-text" preload={[{ weight: 400, style: 'normal' }]} />
     <title>{fullTitle}</title>
   </head>
-  <body>
+  <body class={bodyClass}>
     <a class="skip-link" href="#main">Skip to content</a>
     <SiteHeader />
     <main id="main">
