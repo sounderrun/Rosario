@@ -1,0 +1,199 @@
+---
+import Base from '../../layouts/Base.astro';
+import { RANKS, dayHref, getDays, getReadings, type Day } from '../../lib/liturgy';
+
+export function getStaticPaths() {
+  const days = getDays();
+  return days.map((day, i) => ({
+    params: { date: day.date },
+    props: { day, prev: days[i - 1], next: days[i + 1] },
+  }));
+}
+
+const { day, prev, next } = Astro.props as { day: Day; prev?: Day; next?: Day };
+const readings = getReadings(day);
+const fmt = (date: string) =>
+  new Date(`${date}T12:00:00Z`).toLocaleDateString('en-US', {
+    weekday: 'long', day: 'numeric', month: 'long', year: 'numeric', timeZone: 'UTC',
+  });
+const rank = RANKS[day.rank] ?? '';
+---
+<Base title={`${day.name}, ${fmt(day.date)}`} description={`Mass readings for ${fmt(day.date)}: ${readings.map((r) => r.ref).join('; ')}.`}>
+  <article class="container day">
+    <p class="eyebrow">{day.season}{rank && rank !== day.season && ` · ${rank}`}</p>
+    <h1>{day.name}</h1>
+    <p class="date"><time datetime={day.date}>{fmt(day.date)}</time></p>
+
+    {readings.map((r) => (
+      <section class="reading">
+        <h2>
+          <span class="label">{r.label}</span>
+          <a class="ref" href={r.href}>{r.ref}</a>
+        </h2>
+        {r.verses.length > 0 ? (
+          <div class="text">
+            {r.verses.map((v, i) => (
+              <p class="verse">
+                {(i === 0 || v.c !== r.verses[i - 1].c) && r.verses.some((x) => x.c !== v.c)
+                  ? <sup class="vn">{v.c}:{v.v}</sup>
+                  : <sup class="vn">{v.v}</sup>}
+                {v.t}
+              </p>
+            ))}
+          </div>
+        ) : (
+          <p class="open"><a href={r.href}>Read it in the Bible</a></p>
+        )}
+      </section>
+    ))}
+
+    <p class="note">
+      Text from the World English Bible, Catholic Edition; verse numbers can differ from the
+      lectionary. <a href={day.usccb} rel="noopener">Official readings at USCCB</a>.
+    </p>
+
+    <nav class="pager" aria-label="Days">
+      {prev && (
+        <a class="prev" href={dayHref(prev.date)}>
+          <span class="rubric">Previous day</span>
+          <span class="where">{fmt(prev.date)}</span>
+        </a>
+      )}
+      {next && (
+        <a class="next" href={dayHref(next.date)}>
+          <span class="rubric">Next day</span>
+          <span class="where">{fmt(next.date)}</span>
+        </a>
+      )}
+    </nav>
+  </article>
+</Base>
+
+<style>
+  .day {
+    max-width: 38rem;
+    padding-block: clamp(2rem, 6vh, 3.5rem) 0;
+  }
+
+  .eyebrow {
+    margin-bottom: 0.75rem;
+    font-size: 0.8125rem;
+    letter-spacing: 0.26em;
+    text-transform: uppercase;
+    color: var(--accent);
+  }
+
+  h1 {
+    font-size: var(--fs-h1);
+  }
+
+  .date {
+    margin-top: 0.5rem;
+    color: var(--ink-soft);
+    font-style: italic;
+  }
+
+  .reading {
+    margin-top: 2.75rem;
+    padding-top: 1.5rem;
+    border-top: 1px solid var(--rule);
+  }
+
+  h2 {
+    display: grid;
+    gap: 0.25rem;
+    margin-bottom: 1rem;
+    font-weight: 500;
+  }
+
+  .label {
+    font-family: var(--font-ui);
+    font-size: 0.8125rem;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--rubric);
+  }
+
+  .ref {
+    font-size: var(--fs-h2);
+    color: var(--ink);
+    text-decoration: none;
+  }
+
+  .ref:hover,
+  .open a:hover {
+    color: var(--accent);
+  }
+
+  .text {
+    font-size: var(--fs-text);
+    line-height: 1.7;
+    hyphens: auto;
+  }
+
+  .verse {
+    margin-bottom: 0.45em;
+  }
+
+  .vn {
+    margin-right: 0.3em;
+    color: var(--rubric);
+    font-size: 0.62em;
+    font-weight: 600;
+    line-height: 0;
+    vertical-align: 0.55em;
+  }
+
+  .open a {
+    color: var(--ink-soft);
+    text-decoration-color: var(--rule);
+    text-underline-offset: 0.22em;
+  }
+
+  .note {
+    margin-top: 2.5rem;
+    font-size: var(--fs-small);
+    color: var(--muted);
+  }
+
+  .note a {
+    color: var(--ink-soft);
+  }
+
+  .pager {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+    margin-top: 2.5rem;
+    padding-top: 1.5rem;
+    border-top: 1px solid var(--rule);
+  }
+
+  .pager a {
+    display: grid;
+    gap: 0.1rem;
+    padding-block: 0.5rem;
+    text-decoration: none;
+    color: var(--ink);
+  }
+
+  .pager .next {
+    grid-column: 2;
+    text-align: right;
+  }
+
+  .rubric {
+    font-size: 0.9375rem;
+  }
+
+  .where {
+    font-family: var(--font-display), Georgia, serif;
+    font-size: 1.25rem;
+    font-weight: 600;
+    line-height: 1.15;
+  }
+
+  .pager a:hover .where {
+    color: var(--accent);
+  }
+</style>

@@ -3,10 +3,16 @@ import { Picture } from 'astro:assets';
 import Base from '../layouts/Base.astro';
 import { getDailyVerses, dayIndex } from '../lib/votd';
 import painting from '../assets/calling-of-saint-matthew.jpg';
+import { RANKS, dayHref, getDays } from '../lib/liturgy';
 
 const verses = getDailyVerses();
 // Shown without JavaScript; the script below picks the visitor's own date.
 const v = verses[dayIndex(new Date()) % verses.length];
+
+const days = getDays();
+const buildDate = new Date().toISOString().slice(0, 10);
+const today = days.find((d) => d.date >= buildDate) ?? days.at(-1)!;
+const todayMeta = [today.season, RANKS[today.rank]].filter((x, i, a) => x && a.indexOf(x) === i).join(' · ');
 
 const SECTIONS = [
   { label: 'Bible', href: '/bible/webc/', note: 'WEBC and Douay-Rheims' },
@@ -42,6 +48,16 @@ const SECTIONS = [
     </div>
     <p class="credit container">Caravaggio, <i>The Calling of Saint Matthew</i>, 1599–1600</p>
   </section>
+  <section class="today" aria-labelledby="today-label" id="today" data-first={days[0].date} data-last={days.at(-1)!.date}>
+    <div class="container">
+      <p class="eyebrow" id="today-label">Today's Mass</p>
+      <a class="today-link" href={dayHref(today.date)} data-href>
+        <span class="today-meta" data-meta>{todayMeta}</span>
+        <span class="today-name" data-name>{today.name}</span>
+        <span class="today-refs" data-refs>{Object.values(today.readings).join(' · ')}</span>
+      </a>
+    </div>
+  </section>
   <nav class="sections" aria-label="Sections">
     <ul class="container">
       {SECTIONS.map((s) => (
@@ -66,6 +82,21 @@ const SECTIONS = [
       const ref = box.querySelector('[data-ref]');
       ref.textContent = v.r;
       ref.href = v.h;
+    })();
+
+    // Today's Mass for the visitor's own date.
+    (async () => {
+      const box = document.getElementById('today');
+      const d = new Date();
+      const date = `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`;
+      if (date < box.dataset.first || date > box.dataset.last) return;
+      const res = await fetch(`/liturgy/${date}.json`);
+      if (!res.ok) return;
+      const day = await res.json();
+      box.querySelector('[data-href]').href = `/liturgy/${date}/`;
+      box.querySelector('[data-meta]').textContent = day.meta;
+      box.querySelector('[data-name]').textContent = day.name;
+      box.querySelector('[data-refs]').textContent = day.refs.join(' · ');
     })();
   </script>
 </Base>
@@ -203,6 +234,40 @@ const SECTIONS = [
     font-size: 0.8125rem;
     font-style: italic;
     color: var(--muted);
+  }
+
+  .today {
+    padding-block: 2rem 2.25rem;
+    border-top: 1px solid var(--rule);
+  }
+
+  .today-link {
+    display: grid;
+    gap: 0.35rem;
+    max-width: 40rem;
+    text-decoration: none;
+    color: var(--ink);
+  }
+
+  .today-meta {
+    font-size: 0.875rem;
+    font-style: italic;
+    color: var(--muted);
+  }
+
+  .today-name {
+    font-family: var(--font-display), Georgia, serif;
+    font-size: var(--fs-h2);
+    font-weight: 600;
+    line-height: 1.15;
+  }
+
+  .today-link:hover .today-name {
+    color: var(--accent);
+  }
+
+  .today-refs {
+    color: var(--ink-soft);
   }
 
   .sections {

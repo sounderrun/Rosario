@@ -26,6 +26,8 @@ export default defineConfig({
         "default-src 'none'",
         "img-src 'self'",
         "font-src 'self'",
+        // Homepage fetches today's /liturgy/<date>.json.
+        "connect-src 'self'",
         "base-uri 'none'",
         "form-action 'none'",
         "upgrade-insecure-requests",

@@ -1,0 +1,32 @@
+---
+import Base from '../../layouts/Base.astro';
+import { dayHref, getDays } from '../../lib/liturgy';
+
+const days = getDays();
+const today = new Date().toISOString().slice(0, 10);
+const fallback = days.find((d) => d.date >= today) ?? days.at(-1)!;
+---
+<Base title="Today's Mass readings" description="The Mass readings and celebration for each day of the liturgical year.">
+  <div class="container page" id="liturgy" data-first={days[0].date} data-last={days.at(-1)!.date}>
+    <h1>Today's Mass readings</h1>
+    <p><a class="text-link" href={dayHref(fallback.date)}>Open the readings</a></p>
+  </div>
+  <script>
+    // Send the visitor to their own calendar day.
+    const box = document.getElementById('liturgy')!;
+    const d = new Date();
+    const date = `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`;
+    if (date >= box.dataset.first! && date <= box.dataset.last!) location.replace(`/liturgy/${date}/`);
+  </script>
+</Base>
+
+<style>
+  .page {
+    padding-block: 3rem;
+  }
+
+  h1 {
+    font-size: var(--fs-h1);
+    margin-bottom: 1rem;
+  }
+</style>
